@@ -22,6 +22,7 @@
 #
 # URL: http://castrocastilla.com
 # Date: 20090809
+# License: MIT/X11
 #
 # Description: Bash script generating a self-executable script containing encrypted user
 # configuration files, system configuration files and an arbitrary directory of files
