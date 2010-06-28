@@ -1,0 +1,16 @@
+/usr/src/linux/.config
+/etc/fstab
+/etc/hosts
+/etc/locale.gen
+/etc/make.conf
+/etc/rc.conf
+/etc/conf.d/clock
+/etc/conf.d/consolefont
+/etc/conf.d/hostname
+/etc/conf.d/keymaps
+/etc/conf.d/net
+/etc/init.d/linux32
+/etc/portage/package.use
+/etc/portage/package.keywords
+/etc/X11/xorg.conf
+/root/.ecryptfsrc

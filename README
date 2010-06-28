@@ -1,0 +1,11 @@
+Bash script generating a self-executable script containing encrypted user
+configuration files, system configuration files and an arbitrary directory of files
+here called "essentials".
+
+Usage:
+1) List in user_conf the files/folders you want from the user
+2) List in system_conf the folders you want from the filesystem (where you have root privileges)
+3) sh packager.sh
+4) follow instructions
+
+This code is licensed under MIT/X11
