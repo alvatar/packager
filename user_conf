@@ -1,4 +1,5 @@
 .bashrc
+.bash_profile
 .bin
 .config/uzbl
 .emacs
@@ -10,7 +11,6 @@
 .lftp/bookmarks
 .lftprc
 .moc/config
-.nrss/config
 .opera/bookmarks.adr
 .prompt
 .prompt_config

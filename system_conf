@@ -14,3 +14,5 @@
 /etc/portage/package.keywords
 /etc/X11/xorg.conf
 /root/.ecryptfsrc
+/etc/bitlbee/bitlbee.conf
+/var/lib/bitlbee/alvatar.xml
