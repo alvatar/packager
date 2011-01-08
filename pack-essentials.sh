@@ -35,9 +35,9 @@
 # Variables for files extraction
 #
 
-USER_CONF_DIRS_AND_FILES=`cat user_conf`
+#USER_CONF_DIRS_AND_FILES=`cat user_conf`
 
-SYSTEM_CONF_FILES=`cat system_conf`
+#SYSTEM_CONF_FILES=`cat system_conf`
 
 declare -x ESSENTIALS_DIR_SRC="/data/essentials"
 
@@ -54,12 +54,12 @@ if [[ ! `which $FTP_PROGRAM` ]]; then echo -e "\n\033[0;31mERROR: $FTP_PROGRAM n
 
 declare -rx OUT_FILE_DIR=`pwd`
 
-declare -x AM_I_ROOT=false
-if [ `id -u` != "0" ]; then
-    echo -e "\n\033[0;31mYou must be root to embed System Configuration Files!\033[0m\n" >&2
-else
-    AM_I_ROOT=true
-fi
+#declare -x AM_I_ROOT=false
+#if [ `id -u` != "0" ]; then
+#    echo -e "\n\033[0;31mYou must be root to embed System Configuration Files!\033[0m\n" >&2
+#else
+#    AM_I_ROOT=true
+#fi
 
 IFS=$'\n'
 
@@ -88,66 +88,75 @@ if [[ -f $OUT_FILE ]]; then
 fi
 
 declare -x DO_USER_CONF=false
-echo -ne "\nDo you want to embed User Configuration? [Y]/n: "
-read ASK_USER_CONF
-case $ASK_USER_CONF in
-    n)
-    ;;
-    *)
-    DO_USER_CONF=true
-    echo -ne "\nPlease, set user to extract configuration files. Press [Enter] for current:\n> "
-    read USER_ID_ORIGIN
-    if [[ -z "$USER_ID_ORIGIN" ]]; then USER_ID_ORIGIN=$USER; fi
-
-    echo -ne 'Configuration files for: '"$USER_ID_ORIGIN"'\n'
-    declare -x USER_HOME=""
-    declare -x USER_CONF_FILES=""
-
-    if [[ "$USER_ID_ORIGIN" == "root" ]]; then
-	USER_HOME="/root"
-    else
-	USER_HOME="/home/$USER_ID_ORIGIN"
-    fi
-
-    for i in $USER_CONF_DIRS_AND_FILES; do
-	USER_CONF_FILES+=`find -P $USER_HOME/$i -printf '%p\n'`$'\n'
-    done
-    ;;
-esac
+#echo -ne "\nDo you want to embed User Configuration? [Y]/n: "
+#read ASK_USER_CONF
+#case $ASK_USER_CONF in
+#    n)
+#    ;;
+#    *)
+#    DO_USER_CONF=true
+#    echo -ne "\nPlease, set user to extract configuration files. Press [Enter] for current:\n> "
+#    read USER_ID_ORIGIN
+#    if [[ -z "$USER_ID_ORIGIN" ]]; then USER_ID_ORIGIN=$USER; fi
+#
+#    echo -ne 'Configuration files for: '"$USER_ID_ORIGIN"'\n'
+#    declare -x USER_HOME=""
+#    declare -x USER_CONF_FILES=""
+#
+#    if [[ "$USER_ID_ORIGIN" == "root" ]]; then
+#	USER_HOME="/root"
+#    else
+#	USER_HOME="/home/$USER_ID_ORIGIN"
+#    fi
+#
+#    for i in $USER_CONF_DIRS_AND_FILES; do
+#	USER_CONF_FILES+=`find -P $USER_HOME/$i -printf '%p\n'`$'\n'
+#    done
+#    ;;
+#esac
 
 declare -x DO_SYSTEM_CONF=false
-if $AM_I_ROOT; then
-    echo -en "\nDo you want to embed System Configuration? [Y]/n: "
-    read ASK_SYSTEM_CONF
-    case $ASK_SYSTEM_CONF in
-	n)
-	;;
-	*)
-	DO_SYSTEM_CONF=true
-	;;
-    esac
-fi
+#if $AM_I_ROOT; then
+#    echo -en "\nDo you want to embed System Configuration? [Y]/n: "
+#    read ASK_SYSTEM_CONF
+#    case $ASK_SYSTEM_CONF in
+#	n)
+#	;;
+#	*)
+#	DO_SYSTEM_CONF=true
+#	;;
+#    esac
+#fi
 
-declare -x DO_ESSENTIALS=false
-echo -en "\nDo you want to embed Essentials? [Y]/n: "
-read ASK_ESSENTIALS
-case $ASK_ESSENTIALS in
-    n)
-    ;;
-    *)
-    DO_ESSENTIALS=true
-    ;;
-esac
+declare -x DO_ESSENTIALS=true
+#echo -en "\nDo you want to embed Essentials? [Y]/n: "
+#read ASK_ESSENTIALS
+#case $ASK_ESSENTIALS in
+#    n)
+#    ;;
+#    *)
+#    DO_ESSENTIALS=true
+#    ;;
+#esac
 
-declare -x FTP_UPLOAD=false
-echo -en "\nDo you want to upload to the FTP? y/[N]: "
+declare -x FTP_UPLOAD=true
+declare -x REMOVE_FILES=false
+echo -en "\nDo you want to upload to the FTP? [Y]/[n]: "
 read ASK_FTP_UPLOAD
 case $ASK_FTP_UPLOAD in
-    y)
-    FTP_UPLOAD=true
-    ;;
+    n)
+        FTP_UPLOAD=false ;;
     *)
-    ;;
+        echo -en "\nDo you want to clean up generated files after uploading: [Y]/[n]"
+        read ASK_REMOVE_FILES
+        case $ASK_REMOVE_FILES in
+            n)
+                REMOVE_FILES=false
+                ;;
+            *)
+                REMOVE_FILES=true
+                ;;
+        esac ;;
 esac
 
 echo -en "\n\033[0;34mIntroduce password for data encryption...\033[0m\n> "
@@ -283,9 +292,15 @@ quit
 EOT
 fi
 
+# File cleanup
+#
+
+if $REMOVE_FILES; then
+    if [ -e $OUT_FILE ]; then rm $OUT_FILE; fi
+    if [ -e $OUT_FILE.md5sum ]; then rm $OUT_FILE.md5sum; fi
+fi
 
 # Finalizing
 #
 
 echo -e "\033[0;34m...finished!\033[0;0m\n"
-
