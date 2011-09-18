@@ -41,12 +41,17 @@ IN_SYSTEM_FILES="
 /etc/conf.d/hwclock
 /etc/conf.d/keymaps
 /etc/conf.d/net
+/etc/conf.d/wpa_supplicant
 /etc/portage/package.keywords
 /etc/portage/package.use
 /root/.ecryptfsrc
 /usr/src/linux/.config
 /var/lib/bitlbee/alvatar.xml
+/usr/share/fonts/external/
 "
+
+OLD_PATH=`pwd`
+cd /home/alvatar
 
 declare -x AM_I_ROOT=false
 if [ `id -u` != "0" ]; then
@@ -76,3 +81,5 @@ tar cjf $OUT_FILENAME $IN_FILES
 if [ -d "user_files_tmp" ]; then
     rm -R user_files_tmp
 fi
+
+mv $OUT_FILENAME $OLD_PATH
