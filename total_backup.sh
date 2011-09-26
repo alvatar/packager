@@ -152,7 +152,7 @@ function usage
 #		No arguments
 #	-----------------------------------------------------------------------
 
-	echo "Usage: ${PROGNAME} [-h | --help] -c [conf_file] -o [output_directory]"
+	echo "Usage: ${PROGNAME} [-h | --help] -c [conf_file] -d [output_directory]"
 }
 
 
