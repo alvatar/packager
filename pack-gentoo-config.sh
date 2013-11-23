@@ -2,31 +2,7 @@
 
 
 IN_USER_FILES="
-.Xmodmaprc
-.Xdefaults
-.bashrc
-.bash_profile
-.bin
-.blackhole/pkglist
-.config/uzbl
-.emacs
-.emacs.d
-.gambcini
-.gtkrc-2.0
-.irssi
-.lftp
-.lftprc
-.moc/config
-.prompt
-.prompt_config
-.prompt_functions
-.rtorrent.rc
-.themes
-.vim
-.vimrc
-.xbindkeysrc
-.xinitrc
-.xmonad/xmonad.hs
+`cat user_conf`
 "
 IN_SYSTEM_FILES="
 /boot/grub/grub.conf
@@ -47,7 +23,7 @@ IN_SYSTEM_FILES="
 /root/.ecryptfsrc
 /usr/src/linux/.config
 /var/lib/bitlbee/alvatar.xml
-/usr/share/fonts/external/
+/usr/share/fonts/montecarlo/
 "
 
 OLD_PATH=`pwd`
@@ -60,6 +36,7 @@ if [ `id -u` != "0" ]; then
 else
     AM_I_ROOT=true
 fi
+mount /boot
 
 if [ -d "user_files_tmp" ]; then
     echo -e "\nError: the directory user_files_tmp already existsi\n" >&2
@@ -83,3 +60,4 @@ if [ -d "user_files_tmp" ]; then
 fi
 
 mv $OUT_FILENAME $OLD_PATH
+umount /boot
